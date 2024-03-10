@@ -3,14 +3,14 @@ name: PlatformIO CI
 on: 
   push:
     paths:
-      - arduino/**/*.cpp
-      - arduino/**/*.h
-      - arduino/platformio.ini
+      - "*.cpp"
+      - "*.h"
+      - platformio.ini
   pull_request:
     paths:
-      - arduino/**/*.cpp
-      - arduino/**/*.h
-      - arduino/platformio.ini
+      - "*.cpp"
+      - "*.h"
+      - platformio.ini
 
 jobs:
   build:
@@ -31,6 +31,4 @@ jobs:
         run: pip install --upgrade platformio
 
       - name: Build PlatformIO Project
-        run: |
-          cd arduino
-          pio run
+        run: pio run
