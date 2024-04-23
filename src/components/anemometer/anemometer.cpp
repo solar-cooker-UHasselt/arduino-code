@@ -1,12 +1,14 @@
 #include <Arduino.h>
 
+static const uint8_t anemoPin = A0;
+
 float mapfloat(float x, float in_min, float in_max, float out_min,
                float out_max);
 
 void setup() { Serial.begin(9600); }
 
 void loop() {
-  float sensorValue = analogRead(A0);
+  float sensorValue = analogRead(anemoPin);
   Serial.print("Analog Value = ");
   Serial.println(sensorValue);
 

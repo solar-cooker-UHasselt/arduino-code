@@ -3,8 +3,8 @@ name: PlatformIO CI
 on: 
   push:
     paths:
-      - "*.cpp"
-      - "*.h"
+      - "**/*.cpp"
+      - "**/*.h"
       - platformio.ini
   pull_request:
     paths:

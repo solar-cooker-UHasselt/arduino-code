@@ -1,8 +1,8 @@
 #include <Arduino.h>
 
-int switchPin = 24;
-int ledGreenPin = 22;
-int ledRedPin = 23;
+int switchPin = 9;
+int ledGreenPin = 8;
+int ledRedPin = 2;
 
 void setup() {
   Serial.begin(9600);

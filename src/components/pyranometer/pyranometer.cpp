@@ -1,6 +1,6 @@
 #include <Arduino.h>
 
-const int pyranometerPin = A10; // Analog input pin used for pyranometer
+static const uint8_t pyranometerPin = A5; // Analog input pin used for pyranometer
 
 void setup() {
   Serial.begin(9600); // Start serial communication at 9600 bps

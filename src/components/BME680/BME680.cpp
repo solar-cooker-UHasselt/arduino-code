@@ -5,9 +5,9 @@
 #include <SPI.h>
 #include <Wire.h>
 
-#define BME_SCK 52
-#define BME_MISO 50
-#define BME_MOSI 51
+#define BME_SCK 13
+#define BME_MISO 12
+#define BME_MOSI 11
 #define BME_CS 6
 
 #define SEALEVELPRESSURE_HPA (1013.25)

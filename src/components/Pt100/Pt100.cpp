@@ -3,7 +3,7 @@
 
 #include <Adafruit_MAX31865.h>
 
-Adafruit_MAX31865 thermo = Adafruit_MAX31865(11); // CS
+Adafruit_MAX31865 thermo = Adafruit_MAX31865(A1); // CS
 
 #define RREF 430.0
 #define RNOMINAL 100.0
