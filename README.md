@@ -20,9 +20,14 @@ To use PlatformIO u need to first install [Visual Studio Code](https://code.visu
 
 When VSCode is installed you need to install the [PlatformIO extension](https://platformio.org/install/ide?install=vscode) in VSCode and then you are ready to compile. It may take some time so be patient.
 
+> [!NOTE]
+> If you are using [VSCodium](https://vscodium.com/#install) you can install the plugins via the [Visual Studio Marketplace](https://marketplace.visualstudio.com/).
+> - [cpptools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) 
+> - [platformio-ide](https://marketplace.visualstudio.com/items?itemName=platformio.platformio-ide)
+
 #### Copy the project to your computer
 
-To copy the project to your local machine you can download this [zip](https://github.com/lowie2727/solar-cooker/archive/refs/heads/main.zip) or if you have git installed you can run the `git clone https://github.com/lowie2727/solar-cooker.git` in a folder of your choice. Git is recommended to get the latest updates to the project.
+To copy the project to your local machine you can download this [zip](https://github.com/solar-cooker-UHasselt/arduino-code/archive/refs/heads/main.zip) or if you have git installed you can run the `git clone https://github.com/solar-cooker-UHasselt/solar-cooker.git` in a folder of your choice. Git is recommended to get the latest updates to the project.
 
 ### Using PlatformIO
 
@@ -30,7 +35,7 @@ To copy the project to your local machine you can download this [zip](https://gi
 
 #### Opening the PlatformIO project
 
-When the extension is successfully installed, you will get a new icon on the left in VSCode. Click on it and open the correct folder (open the folder with the platform.ini file assuming you already have a local copy of the project on your computer). In this case open the [arduino](/arduino) folder.
+When the extension is successfully installed, you will get a new icon on the left in VSCode. Click on it and open the correct folder (open the folder with the platform.ini file assuming you already have a local copy of the project on your computer).
 
 #### Build main
 
@@ -39,3 +44,6 @@ You will now see several project tasks when you click on the PlatformIO logo, op
 #### Upload and Monitor
 
 To upload the code and view the serial monitor, a button is provided.
+
+> [!TIP]
+> Linux user should install [udev rules](https://docs.platformio.org/en/latest/core/installation/udev-rules.html)
