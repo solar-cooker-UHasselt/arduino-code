@@ -14,6 +14,8 @@
 
 #include "switch.h"
 
+bool debug = true;
+
 // LCD
 void LCDSetup();
 
@@ -145,17 +147,17 @@ void microSDSetup() {
 
 void writeCSVHeaders() {
   char CSVHeaders[] =
-      "Year;Month;Day;Hour;Minute;Second;Outside temperature "
-      "[°C];Wind speed [m/s];Air pressure (inside box) [hPa];Relative humidity "
-      "(inside box) [%];Temperature inside pot 1 [°C];Temperature inside pot 2 "
-      "[°C];Temperature inside pot 3 [°C];Solar irradiance [W/m²]";
+    "Year;Month;Day;Hour;Minute;Second;Outside temperature "
+    "[°C];Wind speed [m/s];Air pressure (inside box) [hPa];Relative humidity "
+    "(inside box) [%];Temperature inside pot 1 [°C];Temperature inside pot 2 "
+    "[°C];Temperature inside pot 3 [°C];Solar irradiance [W/m²]";
   if (!myFile.open(filePath, O_RDWR | O_CREAT | O_AT_END)) {
     sd.errorHalt(F("opening test.txt for write failed"));
   }
   Serial.println("Writing CSV headers");
   myFile.println(CSVHeaders);
   myFile.close();
-  Serial.println(F("done writing."));
+  Serial.println(F("done writing.\n"));
 }
 
 void writeDataToSD() {
@@ -210,10 +212,58 @@ void writeDataToSD() {
   if (!myFile.open(filePath, O_RDWR | O_CREAT | O_AT_END)) {
     sd.errorHalt(F("opening test.txt for write failed"));
   }
-  Serial.println(dataSd);
+
   myFile.println(dataSd);
   myFile.close();
-  Serial.println(F("done writing."));
+
+  if (debug) {
+    Serial.println(F("----------------"));
+    char date[100];
+    snprintf(date, 500, "Date: %04d-%02d-%02d",
+             getYear(), getMonth(), getDay());
+    Serial.print(date);
+    Serial.println(F(""));
+
+    char time[100];
+    snprintf(time, 500, "Time: %02d:%02d:%02d",
+             getHour24(), getMinute(), getSecond());
+    Serial.print(time);
+    Serial.println(F(""));
+
+    char tempOut[100];
+    snprintf(tempOut, 500, "Outside temperature: %s °C", AM2315CTemp);
+    Serial.print(tempOut);
+    Serial.println(F(""));
+
+    char wind[100];
+    snprintf(wind, 500, "Windspeed: %s m/s", windSpeed);
+    Serial.print(wind);
+    Serial.println(F(""));
+
+    char Pt100Temp1[100];
+    snprintf(Pt100Temp1, 500, "Temperature inside pot 1: %s °C", Pt100Temp1);
+    Serial.print(Pt100Temp1);
+    Serial.println(F(""));
+
+    char Pt100Temp2[100];
+    snprintf(Pt100Temp2, 500, "Temperature inside pot 2: %s °C", Pt100Temp2);
+    Serial.print(Pt100Temp2);
+    Serial.println(F(""));
+
+    char Pt100Temp3[100];
+    snprintf(Pt100Temp3, 500, "Temperature inside pot 3: %s °C", Pt100Temp3);
+    Serial.print(Pt100Temp3);
+    Serial.println(F(""));
+
+    char solarIrr[100];
+    snprintf(solarIrr, 500, "Solar irradiance: %s W/m2", solarIrradiance);
+    Serial.print(solarIrr);
+    Serial.println(F("\n"));
+
+    Serial.println(F("CSV data"));
+    Serial.println(dataSd);
+    Serial.println(F("\n"));
+  }
 }
 
 void updateFileName() {
@@ -257,7 +307,7 @@ void writeDataToScreen() {
 
 void writeLine1() {
   unsigned long currentTestDurationSeconds =
-      (unsigned long)(millis() - testDurationMillis) / 1000;
+    (unsigned long)(millis() - testDurationMillis) / 1000;
 
   uint8_t hours = currentTestDurationSeconds / 3600;
 
