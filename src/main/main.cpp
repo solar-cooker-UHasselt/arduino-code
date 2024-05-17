@@ -38,6 +38,7 @@ void writeLine6();
 void writeLine7();
 void writeLine8();
 void writeLine9();
+void writeLine10();
 
 char previousLine1[100];
 char previousLine2[100];
@@ -48,6 +49,7 @@ char previousLine6[100];
 char previousLine7[100];
 char previousLine8[100];
 char previousLine9[100];
+char previousLine10[100];
 
 float previousTemp = -1;
 float previousHumidity = -1;
@@ -578,5 +580,22 @@ void writeLine9() {
     tft.setTextColor(ILI9341_GREEN);
     tft.setTextSize(2);
     tft.println(line9);
+  }
+}
+
+void writeLine10() {
+  char line10[100];
+  snprintf(line10, 100, "Current file name: %s", filePath);
+
+  if (previousLine10 != line10) {
+    tft.setCursor(0, 200);
+    tft.setTextColor(ILI9341_BLACK);
+    tft.setTextSize(2);
+    tft.println(previousLine10);
+    strcpy(previousLine10, line10);
+    tft.setCursor(0, 200);
+    tft.setTextColor(ILI9341_GREEN);
+    tft.setTextSize(2);
+    tft.println(line10);
   }
 }
