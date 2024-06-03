@@ -9,7 +9,7 @@ void AM2315CSetup() {
   // Initialize the sensor
   if (!aht.begin()) {
     Serial.println(F("AM2315C setup failed: Could not find AM2315C, check wiring"));
-    while (1) delay(10); // Halt the program if sensor is not found
+    // while (1) delay(10); // Halt the program if sensor is not found
   }
 
   Serial.println(F("AM2315C setup finished\n"));

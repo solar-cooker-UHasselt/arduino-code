@@ -6,7 +6,7 @@ void clockSetup() {
   Serial.println(F("Clock setup start"));
   if (!rtc.begin()) {
     Serial.println(F("Clock setup failed: Couldn't find RTC"));
-    while (1) delay(10); // Halt the program if RTC is not found
+    // while (1) delay(10); // Halt the program if RTC is not found
   }
 
   rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));

@@ -11,7 +11,7 @@ void BME680Setup() {
   // Initialize the BME680 sensor
   if (!bme.begin()) {
     Serial.println(F("BME680 setup failed: Could not find BME680, check wiring"));
-    while (1) delay(10); // Halt the program if sensor is not found
+    // while (1) delay(10); // Halt the program if sensor is not found
   }
 
   // Set sensor oversampling and filter settings
