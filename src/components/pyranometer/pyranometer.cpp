@@ -4,6 +4,7 @@ static const uint8_t pyranometerPin = A5; // Analog input pin used for pyranomet
 
 void setup() {
   Serial.begin(9600); // Start serial communication at 9600 bps
+  pinMode(pyranometerPin, INPUT);
 }
 
 void loop() {
@@ -15,7 +16,7 @@ void loop() {
       pyranometerVoltage *
       400; // Convert pyranometer voltage to irradiance (20 mV per W/m^2)
 
-  Serial.print("Pin A0: ");
+  Serial.print("Pin A5: ");
   Serial.println(pyranometerValue);
   Serial.print("Pyranometer voltage: ");
   Serial.print(pyranometerVoltage, 3);

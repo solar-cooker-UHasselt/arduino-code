@@ -5,15 +5,15 @@
 #include <SPI.h>
 #include <Wire.h>
 
-#define BME_SCK 13
-#define BME_MISO 12
-#define BME_MOSI 11
-#define BME_CS 6
+// #define BME_SCK 13
+// #define BME_MISO 12
+// #define BME_MOSI 11
+const uint8_t CS_BME680 = 6;
 
 #define SEALEVELPRESSURE_HPA (1013.25)
 
 // Adafruit_BME680 bme; // I2C
-Adafruit_BME680 bme(BME_CS); // hardware SPI
+Adafruit_BME680 bme(CS_BME680); // hardware SPI
 // Adafruit_BME680 bme(BME_CS, BME_MOSI, BME_MISO,  BME_SCK);
 
 void setup() {

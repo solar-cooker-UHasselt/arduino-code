@@ -1,8 +1,8 @@
 #include <Adafruit_MAX31865.h>
 
-const uint8_t CS_Pt100_1 = 11;
-const uint8_t CS_Pt100_2 = 12;
-const uint8_t CS_Pt100_3 = 13;
+const uint8_t CS_Pt100_1 = A1;
+const uint8_t CS_Pt100_2 = A2;
+const uint8_t CS_Pt100_3 = A3;
 
 Adafruit_MAX31865 thermo1 = Adafruit_MAX31865(CS_Pt100_1);
 Adafruit_MAX31865 thermo2 = Adafruit_MAX31865(CS_Pt100_2);

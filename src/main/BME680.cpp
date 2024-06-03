@@ -18,7 +18,7 @@ void BME680Setup() {
   bme.setIIRFilterSize(BME680_FILTER_SIZE_3);
   bme.setGasHeater(320, 150); // 320*C for 150 ms
 
-  Serial.println("BME680 setup finished\n");
+  Serial.println(F("BME680 setup finished\n"));
 }
 
 float getBME680Humidity() {

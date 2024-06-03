@@ -3,7 +3,7 @@
 Adafruit_AHTX0 aht;
 
 void AM2315CSetup() {
-  Serial.println("AM2315C setup start");
+  Serial.println(F("AM2315C setup start"));
 
   if (!aht.begin()) {
     Serial.println(F("Could not find AM2315C, check wiring"));

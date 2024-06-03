@@ -68,7 +68,7 @@ unsigned long previousMillisScreen = 0;
 // SD
 #include <SdFat.h>
 
-const int chipSelect = 4;
+const int CS_SD = 4;
 
 SdFat sd;
 SdFile myFile;
@@ -142,9 +142,11 @@ void loop() {
 }
 
 void microSDSetup() {
-  if (!sd.begin(chipSelect, SPI_FULL_SPEED)) {
+  Serial.println(F("microSD setup start"));
+  if (!sd.begin(CS_SD, SPI_FULL_SPEED)) {
     sd.initErrorHalt();
   }
+  Serial.println(F("microSD setup finished"));
 }
 
 void writeCSVHeaders() {
@@ -305,6 +307,7 @@ void writeDataToScreen() {
   writeLine7();
   writeLine8();
   writeLine9();
+  writeLine10();
 }
 
 void writeLine1() {

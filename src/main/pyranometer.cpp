@@ -1,6 +1,6 @@
 #include <Arduino.h>
 
-const int PYRANO_PIN = A10;
+const int PYRANO_PIN = A5;
 
 void pyranoSetup() { pinMode(PYRANO_PIN, INPUT); }
 
