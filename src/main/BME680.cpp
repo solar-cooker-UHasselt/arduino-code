@@ -10,7 +10,7 @@ void BME680Setup() {
   
   // Initialize the BME680 sensor
   if (!bme.begin()) {
-    Serial.println(F("Could not find BME680, check wiring"));
+    Serial.println(F("BME680 setup failed: Could not find BME680, check wiring"));
     while (1) delay(10); // Halt the program if sensor is not found
   }
 
@@ -27,7 +27,6 @@ void BME680Setup() {
 float getBME680Humidity() {
   // Perform sensor reading
   if (!bme.performReading()) {
-    Serial.println(F("BME680: Failed to perform reading :("));
     return -1.0; // Return error value
   }
   return bme.humidity; // Return humidity in %
@@ -36,7 +35,6 @@ float getBME680Humidity() {
 float getBME680Pressure() {
   // Perform sensor reading
   if (!bme.performReading()) {
-    Serial.println(F("BME680: Failed to perform reading :("));
     return -1.0; // Return error value
   }
   return bme.pressure / 100.0; // Return pressure in hPa
@@ -45,7 +43,6 @@ float getBME680Pressure() {
 float getBME680Temperature() {
   // Perform sensor reading
   if (!bme.performReading()) {
-    Serial.println(F("BME680: Failed to perform reading :("));
     return -1.0; // Return error value
   }
   return bme.temperature; // Return temperature in °C

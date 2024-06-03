@@ -3,25 +3,20 @@
 RTC_DS3231 rtc;
 
 void clockSetup() {
-  Serial.println(F("clock setup start"));
+  Serial.println(F("Clock setup start"));
   if (!rtc.begin()) {
-    Serial.println("Couldn't find RTC");
-    Serial.flush();
+    Serial.println(F("Clock setup failed: Couldn't find RTC"));
+    while (1) delay(10); // Halt the program if RTC is not found
   }
 
   rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
-  DateTime now = rtc.now();
-  Serial.print("Date: ");
-  Serial.println(F(__DATE__));
-  Serial.print("Time: ");
-  Serial.println(F(__TIME__));
 
   // if (rtc.lostPower()) {
   //   Serial.println("RTC lost power, let's set the time!");
   //   rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
   // }
 
-  Serial.println(F("clock setup finished\n"));
+  Serial.println(F("Clock setup finished\n"));
 }
 
 uint16_t getYear() {

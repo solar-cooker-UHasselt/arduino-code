@@ -1,4 +1,3 @@
-
 #include "anemometer.h"
 
 const int ANEMO_PIN = A0;
@@ -11,7 +10,7 @@ float mapfloat(float x, float in_min, float in_max, float out_min, float out_max
 // Function to initialize the anemometer sensor
 void anemoSetup() {
   pinMode(ANEMO_PIN, INPUT);
-  Serial.println(F("Anemometer setup complete"));
+  Serial.println(F("Anemometer setup finished\n"));
 }
 
 // Function to get the wind speed from the anemometer sensor

@@ -9,7 +9,7 @@ void switchSetup() {
   pinMode(SWITCH_PIN, INPUT);
   pinMode(LED_GREEN_PIN, OUTPUT);
   pinMode(LED_RED_PIN, OUTPUT);
-  Serial.println(F("Switch and LEDs setup complete"));
+  Serial.println(F("Switch and LEDs setup finished\n"));
 }
 
 int getSwitchState() {

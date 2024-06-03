@@ -5,7 +5,7 @@ const int PYRANO_PIN = A5;
 void pyranoSetup() {
   // Initialize the pyranometer sensor
   pinMode(PYRANO_PIN, INPUT);
-  Serial.println(F("Pyranometer setup complete"));
+  Serial.println(F("Pyranometer setup finished\n"));
 }
 
 float getSolarIrradiance() {
