@@ -1,7 +1,4 @@
-#include <Arduino.h>
-
-#include "RTClib.h"
-#include <SPI.h>
+#include "clock.h"
 
 RTC_DS3231 rtc;
 
