@@ -1,6 +1,6 @@
 #include "pyranometer.h"
 
-const int PYRANO_PIN = A5;
+const int PYRANO_PIN = 10;
 
 void pyranoSetup() {
   // Initialize the pyranometer sensor

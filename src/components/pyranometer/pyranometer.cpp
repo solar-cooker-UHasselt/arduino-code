@@ -1,6 +1,6 @@
 #include <Arduino.h>
 
-static const uint8_t pyranometerPin = A5; // Analog input pin used for pyranometer
+static const uint8_t pyranometerPin = 10; // Analog input pin used for pyranometer
 
 void setup() {
   Serial.begin(9600); // Start serial communication at 9600 bps
@@ -14,7 +14,7 @@ void loop() {
                                          // (assuming 5V reference voltage)
   float pyranometerIrradiance =
       pyranometerVoltage *
-      400; // Convert pyranometer voltage to irradiance (20 mV per W/m^2)
+      400; // Convert pyranometer voltage to irradiance calibration factor (0.4 W/m2 per mV)
 
   Serial.print("Pin A5: ");
   Serial.println(pyranometerValue);

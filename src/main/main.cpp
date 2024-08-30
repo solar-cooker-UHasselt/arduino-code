@@ -30,6 +30,8 @@ unsigned long previousMillisSD = 0;
 unsigned long previousMillisScreen = 0;
 unsigned long testDurationMillis = 0;
 
+int stopMessagePrinted = 0;
+
 float tempBuffer[60];
 int bufferIndex = 0;
 int isArrayEmpty = 1;
@@ -86,19 +88,27 @@ void loop() {
       writeDataToSD();
       previousMillisSD = currentMillis;
     }
+
+    stopMessagePrinted = 0;
+
   } else {
     redLedOn();
     fileNameUpdated = 0;
     isArrayEmpty = 1;
+
+    if(!stopMessagePrinted) {
+        Serial.println("Testing stopped!\n");
+        stopMessagePrinted = 1;
+    }
   }
 }
 
 void microSDSetup() {
-  Serial.println(F("microSD setup start"));
+  Serial.println(F("MicroSD setup start"));
   if (!sd.begin(CS_SD, SPI_FULL_SPEED)) {
     sd.initErrorHalt();
   }
-  Serial.println(F("microSD setup finished\n"));
+  Serial.println(F("MicroSD setup finished\n"));
 }
 
 void writeCSVHeaders() {
@@ -113,7 +123,7 @@ void writeCSVHeaders() {
   Serial.println("Writing CSV headers");
   myFile.println(CSVHeaders);
   myFile.close();
-  Serial.println(F("done writing.\n"));
+  Serial.println(F("Done writing.\n"));
 }
 
 void writeDataToSD() {
@@ -161,6 +171,14 @@ void writeDataToSD() {
     Serial.print(getAM2315CTemp());
     Serial.println(" °C");
 
+    Serial.print("Humidity: ");
+    Serial.print(getBME680Humidity());
+    Serial.println(" %");
+
+    Serial.print("Pressure: ");
+    Serial.print(getBME680Pressure());
+    Serial.println(" hPa");
+
     Serial.print("Windspeed: ");
     Serial.print(getWindSpeed());
     Serial.println(" m/s");
@@ -196,7 +214,9 @@ void writeDataToSD() {
     Serial.print(getSolarIrradiance());
     Serial.println(" W/m2");
 
-    Serial.println(F("\nCSV data"));
+    Serial.print("\nCSV path name: ");
+    Serial.println(filePath);
+    Serial.println(F("CSV data"));
     Serial.println(dataSd);
     Serial.println(F("\n"));
   }
@@ -206,6 +226,7 @@ void updateFileName() {
   snprintf(filePath, sizeof(filePath), "%04d/%02d/%02d%02d%02d%02d.csv", getYear(),
            getMonth(), getDay(), getHour24(), getMinute(), getSecond());
 
+  Serial.print("CSV path name: ");
   Serial.println(filePath);
 
   char dirName[200];

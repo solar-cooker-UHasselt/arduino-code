@@ -26,6 +26,8 @@ const int chipSelect = 4;
 SdFat sd;
 SdFile myFile;
 
+unsigned long counter = 0;
+
 void setup() {
   Serial.begin(9600);
   while (!Serial) {
@@ -52,4 +54,18 @@ void setup() {
 
 void loop() {
   // nothing happens after setup
+    // open the file for write at end like the Native SD library
+  if (!myFile.open("test.txt", O_RDWR | O_CREAT | O_AT_END)) {
+    sd.errorHalt("opening test.txt for write failed");
+  }
+  // if the file opened okay, write to it:
+  Serial.println("Writing to test.txt...");
+  Serial.println(counter);
+  myFile.println(counter);
+  counter++;
+
+  // close the file:
+  myFile.close();
+  Serial.println("done.");
+  delay(1000);
 }
