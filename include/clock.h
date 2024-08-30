@@ -6,7 +6,7 @@
 
 extern RTC_DS3231 rtc;
 
-void clockSetup();
+void clockSetup(bool updateTimeFromPC);
 uint16_t getYear();
 uint8_t getMonth();
 uint8_t getDay();

@@ -12,6 +12,7 @@
 #include <SdFat.h>
 
 bool debug = true;
+bool updateTimeFromPC = false;
 
 #define TFT_DC 7
 #define TFT_CS 3
@@ -58,7 +59,7 @@ void setup() {
   AM2315CSetup();
   anemoSetup();
   BME680Setup();
-  clockSetup();
+  clockSetup(updateTimeFromPC);
   microSDSetup();
   Pt100Setup();
   pyranoSetup();
