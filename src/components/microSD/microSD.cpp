@@ -29,7 +29,7 @@ SdFile myFile;
 unsigned long counter = 0;
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   while (!Serial) {
   } // wait for Leonardo
 

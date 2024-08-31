@@ -52,7 +52,7 @@ void initArray(float array[], float value);
 void writeLine(int line, const char *format, float value, float &previousValue);
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   while (!Serial) { }
   Serial.println();
 

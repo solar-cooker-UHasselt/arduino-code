@@ -5,7 +5,7 @@ static const uint8_t anemoPin = A0;
 float mapfloat(float x, float in_min, float in_max, float out_min,
                float out_max);
 
-void setup() { Serial.begin(9600); }
+void setup() { Serial.begin(115200); }
 
 void loop() {
   float sensorValue = analogRead(anemoPin);

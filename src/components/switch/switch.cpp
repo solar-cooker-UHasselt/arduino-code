@@ -5,7 +5,7 @@ int ledGreenPin = 8;
 int ledRedPin = 2;
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   pinMode(ledGreenPin, OUTPUT);
   pinMode(ledRedPin, OUTPUT);
   pinMode(switchPin, INPUT);

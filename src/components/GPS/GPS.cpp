@@ -35,7 +35,7 @@ void setup() {
 
   // connect at 115200 so we can read the GPS fast enough and echo without
   // dropping chars also spit it out
-  Serial.begin(9600);
+  Serial.begin(115200);
   Serial.println("Adafruit GPS library basic parsing test!");
 
   // 9600 NMEA is the default baud rate for Adafruit MTK GPS's- some use 4800

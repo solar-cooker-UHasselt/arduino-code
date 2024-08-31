@@ -9,7 +9,7 @@ Adafruit_MAX31865 thermo = Adafruit_MAX31865(A1); // CS
 #define RNOMINAL 100.0
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   Serial.println("Adafruit MAX31865 PT100 Sensor Test!");
   thermo.begin(MAX31865_4WIRE);
 }

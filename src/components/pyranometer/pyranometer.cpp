@@ -3,7 +3,7 @@
 static const uint8_t pyranometerPin = 10; // Analog input pin used for pyranometer
 
 void setup() {
-  Serial.begin(9600); // Start serial communication at 9600 bps
+  Serial.begin(115200); // Start serial communication at 9600 bps
   pinMode(pyranometerPin, INPUT);
 }
 
