@@ -1,3 +1,31 @@
+# Kown issues
+
+In the following file:
+
+```cpp 
+.pio/libdeps/main/Adafruit ILI9341/Adafruit_ILI9341.cpp:53:10: fatal error: wiring_private.h: No such file or directory
+```
+
+Change
+
+```cpp
+#ifndef RASPI
+#include "wiring_private.h"
+#endif
+```
+
+Into
+
+```cpp
+#if defined(__has_include)
+#if __has_include("wiring_private.h")
+#include "wiring_private.h"
+#endif  // __has_include("wiring_private.h")
+#else  //defined(__has_include)
+#include "wiring_private.h"
+#endif  //defined(__has_include)
+```
+
 # Arduino
 
 The [**src**](src) folder contains the code for both the individual components and the code for the entire testing station.
