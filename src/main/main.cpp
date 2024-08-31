@@ -118,8 +118,8 @@ void writeCSVHeaders() {
     "[°C];Wind speed [m/s];Air pressure (inside box) [hPa];Relative humidity "
     "(inside box) [%];Temperature inside pot 1 [°C];Temperature inside pot 2 "
     "[°C];Temperature inside pot 3 [°C];Solar irradiance [W/m²]";
-  if (!myFile.open("test123.csv", O_RDWR | O_CREAT | O_AT_END)) {
-    sd.errorHalt(F("opening test.txt for write failed"));
+  if (!myFile.open(filePath, O_RDWR | O_CREAT | O_AT_END)) {
+    sd.errorHalt(F("opening file for write failed"));
   }
   Serial.println("Writing CSV headers");
   myFile.println(CSVHeaders);
@@ -138,15 +138,17 @@ void writeDataToSD() {
   bool fault2 = getPt100Fault_2();
   bool fault3 = getPt100Fault_3();
 
+  DateTime now = getTime();
+
   snprintf(dataSd, sizeof(dataSd), "%04d;%02d;%02d;%02d;%02d;%02d;%.2f;%.2f;%.2f;%.2f;%s;%s;%s;%.2f",
-           getYear(), getMonth(), getDay(), getHour24(), getMinute(), getSecond(),
+           getYear(now), getMonth(now), getDay(now), getHour24(now), getMinute(now), getSecond(now),
            getAM2315CTemp(), getWindSpeed(), getBME680Pressure(), getAM2315CHum(),
            fault1 ? "x" : String(temp1, 2).c_str(),
            fault2 ? "x" : String(temp2, 2).c_str(),
            fault3 ? "x" : String(temp3, 2).c_str(),
            getSolarIrradiance());
 
-  if (!myFile.open("test123.csv", O_RDWR | O_CREAT | O_AT_END)) {
+  if (!myFile.open(filePath, O_RDWR | O_CREAT | O_AT_END)) {
     sd.errorHalt(F("opening test.txt for write failed"));
   }
   myFile.println(dataSd);
@@ -155,18 +157,18 @@ void writeDataToSD() {
   if (debug) {
     Serial.println(F("----------------"));
     Serial.print("Date: ");
-    Serial.print(getYear());
+    Serial.print(getYear(now));
     Serial.print("-");
-    Serial.print(getMonth());
+    Serial.print(getMonth(now));
     Serial.print("-");
-    Serial.println(getDay());
+    Serial.println(getDay(now));
 
     Serial.print("Time: ");
-    Serial.print(getHour24());
+    Serial.print(getHour24(now));
     Serial.print(":");
-    Serial.print(getMinute());
+    Serial.print(getMinute(now));
     Serial.print(":");
-    Serial.println(getSecond());
+    Serial.println(getSecond(now));
 
     Serial.print("Outside temperature: ");
     Serial.print(getAM2315CTemp());
@@ -224,17 +226,18 @@ void writeDataToSD() {
 }
 
 void updateFileName() {
-  snprintf(filePath, sizeof(filePath), "%04d/%02d/%02d%02d%02d%02d.csv", getYear(),
-           getMonth(), getDay(), getHour24(), getMinute(), getSecond());
+  DateTime now = getTime();
+  snprintf(filePath, sizeof(filePath), "%04d/%02d/%02d%02d%02d%02d.csv", getYear(now),
+           getMonth(now), getDay(now), getHour24(now), getMinute(now), getSecond(now));
 
   Serial.print("CSV path name: ");
   Serial.println(filePath);
 
   char dirName[200];
-  snprintf(dirName, sizeof(dirName), "%04d/%02d/", getYear(), getMonth());
+  snprintf(dirName, sizeof(dirName), "%04d/%02d/", getYear(now), getMonth(now));
 
   char yearDir[10];
-  snprintf(yearDir, sizeof(yearDir), "%04d", getYear());
+  snprintf(yearDir, sizeof(yearDir), "%04d", getYear(now));
   sd.mkdir(yearDir);
   sd.mkdir(dirName);
 
@@ -242,7 +245,7 @@ void updateFileName() {
 }
 
 void makeFile() {
-  if (!myFile.open("test123.csv", O_RDWR | O_CREAT | O_AT_END)) {
+  if (!myFile.open(filePath, O_RDWR | O_CREAT | O_AT_END)) {
     sd.errorHalt("opening file for write failed");
   }
   myFile.close();
