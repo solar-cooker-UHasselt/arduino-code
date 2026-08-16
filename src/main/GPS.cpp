@@ -30,7 +30,7 @@ void GPSSetup() {
 // USB Serial console, so we can see whether the module is transmitting
 // anything at all (as opposed to transmitting but never getting a fix).
 // Set to false once wiring/communication is confirmed working.
-#define GPS_DEBUG_ECHO true
+#define GPS_DEBUG_ECHO false
 
 void GPSRead() {
   // Pull in whatever bytes are waiting on the serial buffer. This has

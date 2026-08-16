@@ -279,19 +279,22 @@ void writeDataToSD() {
     Serial.print(wind);
     Serial.println(F(""));
 
-    char Pt100Temp1[100];
-    snprintf(Pt100Temp1, 500, "Temperature inside pot 1: %s °C", Pt100Temp1);
-    Serial.print(Pt100Temp1);
+    char pt100Temp1Line[100];
+    snprintf(pt100Temp1Line, 100, "Temperature inside pot 1: %s °C",
+             Pt100Temp1);
+    Serial.print(pt100Temp1Line);
     Serial.println(F(""));
 
-    char Pt100Temp2[100];
-    snprintf(Pt100Temp2, 500, "Temperature inside pot 2: %s °C", Pt100Temp2);
-    Serial.print(Pt100Temp2);
+    char pt100Temp2Line[100];
+    snprintf(pt100Temp2Line, 100, "Temperature inside pot 2: %s °C",
+             Pt100Temp2);
+    Serial.print(pt100Temp2Line);
     Serial.println(F(""));
 
-    char Pt100Temp3[100];
-    snprintf(Pt100Temp3, 500, "Temperature inside pot 3: %s °C", Pt100Temp3);
-    Serial.print(Pt100Temp3);
+    char pt100Temp3Line[100];
+    snprintf(pt100Temp3Line, 100, "Temperature inside pot 3: %s °C",
+             Pt100Temp3);
+    Serial.print(pt100Temp3Line);
     Serial.println(F(""));
 
     char solarIrr[100];
