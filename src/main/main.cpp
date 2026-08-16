@@ -8,6 +8,8 @@
 
 #include "clock.h"
 
+#include "GPS.h"
+
 #include "Pt100.h"
 
 #include "pyranometer.h"
@@ -103,6 +105,7 @@ void setup() {
   anemoSetup();
   BME680Setup();
   clockSetup();
+  GPSSetup();
   microSDSetup();
   Pt100Setup();
   pyranoSetup();
@@ -111,6 +114,13 @@ void setup() {
 }
 
 void loop() {
+  // Must run every iteration, regardless of switch state, so the GPS
+  // serial buffer is drained continuously and NMEA sentences don't
+  // get corrupted. Keeping it always-on also means a satellite fix
+  // (which can take 30s+ on a cold start) is already available by
+  // the time a test is started.
+  GPSRead();
+
   if (getSwitchState()) {
     greenLedOn();
 
@@ -142,9 +152,18 @@ void loop() {
 }
 
 void microSDSetup() {
-  if (!sd.begin(chipSelect, SPI_FULL_SPEED)) {
-    sd.initErrorHalt();
+  int attempts = 0;
+  while (!sd.begin(chipSelect, SPI_FULL_SPEED)) {
+    attempts++;
+    Serial.print(F("SD init failed, attempt "));
+    Serial.println(attempts);
+    if (attempts >= 5) {
+      Serial.println(F("SD init failed after 5 attempts, halting."));
+      sd.initErrorHalt();
+    }
+    delay(500);
   }
+  Serial.println(F("SD init OK"));
 }
 
 void writeCSVHeaders() {
@@ -152,7 +171,8 @@ void writeCSVHeaders() {
     "Year;Month;Day;Hour;Minute;Second;Outside temperature "
     "[°C];Wind speed [m/s];Air pressure (inside box) [hPa];Relative humidity "
     "(inside box) [%];Temperature inside pot 1 [°C];Temperature inside pot 2 "
-    "[°C];Temperature inside pot 3 [°C];Solar irradiance [W/m²]";
+    "[°C];Temperature inside pot 3 [°C];Solar irradiance [W/m²];GPS "
+    "fix;Latitude [°];Longitude [°];Altitude [m];Satellites";
   if (!myFile.open(filePath, O_RDWR | O_CREAT | O_AT_END)) {
     sd.errorHalt(F("opening test.txt for write failed"));
   }
@@ -205,11 +225,28 @@ void writeDataToSD() {
   char solarIrradiance[20];
   dtostrf(getSolarIrradiance(), 6, 2, solarIrradiance);
 
-  char dataSd[500];
-  snprintf(dataSd, 500, "%04d;%02d;%02d;%02d;%02d;%02d;%s;%s;%s;%s;%s;%s;%s;%s",
+  bool gpsFix = getGPSFix();
+
+  char gpsLatitude[20];
+  char gpsLongitude[20];
+  char gpsAltitude[20];
+  if (gpsFix) {
+    dtostrf(getGPSLatitude(), 4, 6, gpsLatitude);
+    dtostrf(getGPSLongitude(), 4, 6, gpsLongitude);
+    dtostrf(getGPSAltitude(), 4, 2, gpsAltitude);
+  } else {
+    snprintf(gpsLatitude, 20, "x");
+    snprintf(gpsLongitude, 20, "x");
+    snprintf(gpsAltitude, 20, "x");
+  }
+
+  char dataSd[600];
+  snprintf(dataSd, 600,
+           "%04d;%02d;%02d;%02d;%02d;%02d;%s;%s;%s;%s;%s;%s;%s;%s;%d;%s;%s;%s;%d",
            getYear(), getMonth(), getDay(), getHour24(), getMinute(),
            getSecond(), AM2315CTemp, windSpeed, BME680Pressure, AM2315CHum,
-           Pt100Temp1, Pt100Temp2, Pt100Temp3, solarIrradiance);
+           Pt100Temp1, Pt100Temp2, Pt100Temp3, solarIrradiance, gpsFix,
+           gpsLatitude, gpsLongitude, gpsAltitude, getGPSSatellites());
 
   if (!myFile.open(filePath, O_RDWR | O_CREAT | O_AT_END)) {
     sd.errorHalt(F("opening test.txt for write failed"));
@@ -260,6 +297,13 @@ void writeDataToSD() {
     char solarIrr[100];
     snprintf(solarIrr, 500, "Solar irradiance: %s W/m2", solarIrradiance);
     Serial.print(solarIrr);
+    Serial.println(F(""));
+
+    char gps[100];
+    snprintf(gps, 100, "GPS fix: %d  Lat: %s  Lon: %s  Alt: %s  Sats: %d",
+             gpsFix, gpsLatitude, gpsLongitude, gpsAltitude,
+             getGPSSatellites());
+    Serial.print(gps);
     Serial.println(F("\n"));
 
     Serial.println(F("CSV data"));
@@ -305,6 +349,7 @@ void writeDataToScreen() {
   writeLine7();
   writeLine8();
   writeLine9();
+  writeLine10();
 }
 
 void writeLine1() {
@@ -584,10 +629,21 @@ void writeLine9() {
 }
 
 void writeLine10() {
-  char line10[100];
-  snprintf(line10, 100, "Current file name: %s", filePath);
+  bool gpsFix = getGPSFix();
 
-  if (previousLine10 != line10) {
+  char line10[100];
+  if (gpsFix) {
+    char lat[15];
+    char lon[15];
+    dtostrf(getGPSLatitude(), 4, 4, lat);
+    dtostrf(getGPSLongitude(), 4, 4, lon);
+    snprintf(line10, 100, "GPS: %s,%s (%d sat)", lat, lon,
+             getGPSSatellites());
+  } else {
+    snprintf(line10, 100, "GPS: no fix (%d sat)", getGPSSatellites());
+  }
+
+  if (strcmp(previousLine10, line10) != 0) {
     tft.setCursor(0, 200);
     tft.setTextColor(ILI9341_BLACK);
     tft.setTextSize(2);
